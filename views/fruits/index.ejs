@@ -11,10 +11,13 @@
     <h1>All Fruits</h1>
     <ul>
     <% fruits.forEach(fruit => { %>
-        <li><%= fruit.name %></li>
+        <li>
+            <a href="/fruits/<%= fruit._id %>"><%= fruit.name %></a>
+        </li>
     <% }); %>
     </ul>
     <!-- views/fruits/index.ejs -->
     <a href="/fruits/new">Add New Fruit</a> 
+    <a href="/">Back to homepage</a> 
   </body>
 </html>
