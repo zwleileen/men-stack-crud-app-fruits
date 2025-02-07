@@ -60,6 +60,7 @@ app.get("/fruits/:fruitId", async (req, res) => {
 app.delete("/fruits/:fruitId", async (req, res) => {
   await Fruit.findByIdAndDelete(req.params.fruitId);
   res.redirect("/fruits");
+  //   res.send("deleted"); //use this for bruno because bruno cannot work with redirect
 });
 
 app.get("/fruits/:fruitId/edit", async (req, res) => {
