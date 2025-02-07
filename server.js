@@ -6,6 +6,7 @@ const mongoose = require("mongoose"); // require package
 // Import the Fruit model
 const Fruit = require("./models/Fruit.js");
 const morgan = require("morgan");
+const methodOverride = require("method-override"); // new
 
 //configs go here
 const app = express();
@@ -20,6 +21,7 @@ mongoose.connection.on("connected", () => {
 //middleware goes here
 app.use(morgan("dev"));
 //For ejs only:
+app.use(methodOverride("_method")); // new
 app.use(express.urlencoded({ extended: false }));
 
 //routes go here
@@ -48,6 +50,16 @@ app.get("/fruits", async (req, res) => {
 
 app.get("/fruits/new", async (req, res) => {
   res.render("fruits/new.ejs");
+});
+
+app.get("/fruits/:fruitId", async (req, res) => {
+  const foundFruit = await Fruit.findById(req.params.fruitId);
+  res.render("fruits/show.ejs", { fruit: foundFruit });
+});
+
+app.delete("/fruits/:fruitId", async (req, res) => {
+  await Fruit.findByIdAndDelete(req.params.fruitId);
+  res.redirect("/fruits");
 });
 
 //listen
