@@ -62,6 +62,24 @@ app.delete("/fruits/:fruitId", async (req, res) => {
   res.redirect("/fruits");
 });
 
+app.get("/fruits/:fruitId/edit", async (req, res) => {
+  const foundFruit = await Fruit.findById(req.params.fruitId);
+  //   console.log(foundFruit);
+  res.render("fruits/edit.ejs", {
+    fruit: foundFruit,
+  });
+});
+
+app.put("/fruits/:fruitId", async (req, res) => {
+  if (req.body.isReadyToEat === "on") {
+    req.body.isReadyToEat = true;
+  } else {
+    req.body.isReadyToEat = false;
+  }
+  await Fruit.findByIdAndUpdate(req.params.fruitId, req.body);
+  res.redirect(`/fruits/${req.params.fruitId}`);
+});
+
 //listen
 app.listen(3000, () => {
   console.log("Listening on port 3000");
